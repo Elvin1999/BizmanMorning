@@ -1,5 +1,6 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { useEffect, useState } from 'react';
+import AddSaleScreen from '../screens/AddSale';
 import ClientDetails from '../screens/ClientDetailsScreen';
 import ClientScreen from '../screens/ClientScreen';
 import HomeScreen from '../screens/HomeScreen';
@@ -29,7 +30,7 @@ export default function AppNavigator() {
             <Stack.Screen name='Login' component={LoginScreen} />
             <Stack.Screen name='Clients' component={ClientScreen} />
             <Stack.Screen name='ClientDetails' component={ClientDetails} />
-            {/* <Stack.Screen name='AddSale' component={AddSaleScreen} /> */}
+            <Stack.Screen name='AddSale' component={AddSaleScreen} />
             
         </Stack.Navigator>
     )

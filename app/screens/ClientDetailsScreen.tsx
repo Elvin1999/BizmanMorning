@@ -10,11 +10,16 @@ export default function ClientDetails({ route }: any) {
     const { client } = route.params;
     const [sales, setSales] = useState<any[]>([]);
 
+
     useEffect(() => {
+        loadClients();
+    }, []);
+
+    const loadClients=()=>{
         getClientSales(client.id, (data: any[]) => {
             setSales(data);
         });
-    }, []);
+    };
 
     return (
         <ScrollView style={{ padding: 16 }}>
@@ -32,7 +37,7 @@ export default function ClientDetails({ route }: any) {
                 ))
             }
 
-            <Button mode="contained" style={{ marginTop: 16 }} onPress={() => navigation.navigate('AddSale', { client })}>
+            <Button mode="contained" style={{ marginTop: 16 }} onPress={() => navigation.navigate('AddSale', { client,loadClients })}>
                 Add Sale
             </Button>
         </ScrollView>

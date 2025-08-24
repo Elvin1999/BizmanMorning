@@ -2,11 +2,11 @@
 import { useEffect, useState } from "react";
 import { SafeAreaView, ScrollView, View } from "react-native";
 import { Button, DataTable, IconButton, Searchbar, Snackbar, TextInput } from "react-native-paper";
-import { deleteClient, getClients, initDatabase, insertClient, updateClient } from "../db/database";
+import { deleteClient, insertClient, updateClient } from "../db/database";
 
 const rowsPerPage = 3;
 
-export default function ClientScreen({ navigation }: any) {
+export default function ClientScreen({ navigation,clientsData }: any) {
     const [clients, setClients] = useState<any[]>([]),
         [filteredClients, setFilteredClients] = useState<any[]>([]);
 
@@ -20,18 +20,15 @@ export default function ClientScreen({ navigation }: any) {
 
     useEffect(() => {
         (async () => {
-            await initDatabase();
             await loadClients();
         })();
 
     }, []);
 
     const loadClients = async () => {
-        await getClients((data) => {
-            console.log("data", data);
-            setClients(data);
-            setFilteredClients(data);
-        })
+        console.log("Clients Data",clientsData);
+            setClients(clientsData);
+            setFilteredClients(clientsData);
     };
 
     const showMessage = (message: string) => {
@@ -115,10 +112,6 @@ export default function ClientScreen({ navigation }: any) {
                 {editingId && <Button mode="contained" onPress={resetForm} style={{ marginBottom: 16 }}>
                     {'Cancel'}
                 </Button>}
-
-                {/* <ClientChart clients={clients} >
-
-                </ClientChart> */}
 
                 <DataTable>
                     <DataTable.Header>
