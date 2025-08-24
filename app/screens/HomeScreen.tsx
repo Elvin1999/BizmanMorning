@@ -26,7 +26,7 @@ export default function HomeScreen({ navigation }: any) {
             setClients(data);
         })
     };
-
+    const clientsData=clients ?? [];
     return (
         <View>
             <Text>
@@ -35,7 +35,7 @@ export default function HomeScreen({ navigation }: any) {
 
             <ClientChart clients={clients} />
 
-            <Button title="Go Clients" onPress={() => navigation.navigate('Clients', { clientsData: clients })} />
+            <Button title="Go Clients" onPress={() => navigation.navigate('Clients', { clientsData })} />
             <Button title="Logout" onPress={logout} />
         </View>
     )

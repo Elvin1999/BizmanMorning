@@ -2,11 +2,11 @@
 import { useEffect, useState } from "react";
 import { SafeAreaView, ScrollView, View } from "react-native";
 import { Button, DataTable, IconButton, Searchbar, Snackbar, TextInput } from "react-native-paper";
-import { deleteClient, insertClient, updateClient } from "../db/database";
+import { deleteClient, getClients, initDatabase, insertClient, updateClient } from "../db/database";
 
 const rowsPerPage = 3;
 
-export default function ClientScreen({ navigation,clientsData }: any) {
+export default function ClientScreen({ navigation }: any) {
     const [clients, setClients] = useState<any[]>([]),
         [filteredClients, setFilteredClients] = useState<any[]>([]);
 
@@ -20,15 +20,18 @@ export default function ClientScreen({ navigation,clientsData }: any) {
 
     useEffect(() => {
         (async () => {
+            await initDatabase();
             await loadClients();
         })();
 
     }, []);
 
     const loadClients = async () => {
-        console.log("Clients Data",clientsData);
-            setClients(clientsData);
-            setFilteredClients(clientsData);
+        await getClients((data) => {
+            console.log("data", data);
+            setClients(data);
+            setFilteredClients(data);
+        })
     };
 
     const showMessage = (message: string) => {
