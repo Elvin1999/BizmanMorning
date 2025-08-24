@@ -1,3 +1,4 @@
+import ClientSalesChart from "@/components/charts/ClientSalesChart";
 import { useNavigation } from "@react-navigation/native";
 import { useEffect, useState } from "react";
 import { ScrollView, Text, View } from "react-native";
@@ -15,7 +16,7 @@ export default function ClientDetails({ route }: any) {
         loadClients();
     }, []);
 
-    const loadClients=()=>{
+    const loadClients = () => {
         getClientSales(client.id, (data: any[]) => {
             setSales(data);
         });
@@ -27,17 +28,20 @@ export default function ClientDetails({ route }: any) {
             <Text>{client.phone}</Text>
             <Text>{client.email}</Text>
 
+            <ClientSalesChart clientId={client.id} />
             <Text style={{ marginTop: 20, fontSize: 18, fontWeight: 'bold' }}>Sales</Text>
-            {
-                sales.map((sale) => (
-                    <View key={sale.id} style={{ marginVertical: 8, padding: 8, backgroundColor: '#eee' }}>
-                        <Text>Amount : {sale.amount}</Text>
-                        <Text>Date : {sale.date}</Text>
-                    </View>
-                ))
-            }
+            <ScrollView style={{ height: 200 }} >
+                {
+                    sales.map((sale) => (
+                        <View key={sale.id} style={{ marginVertical: 8, padding: 8, backgroundColor: '#eee' }}>
+                            <Text>Amount : {sale.amount}</Text>
+                            <Text>Date : {sale.date}</Text>
+                        </View>
+                    ))
+                }
+            </ScrollView>
 
-            <Button mode="contained" style={{ marginTop: 16 }} onPress={() => navigation.navigate('AddSale', { client,loadClients })}>
+            <Button mode="contained" style={{ marginTop: 16 }} onPress={() => navigation.navigate('AddSale', { client, loadClients })}>
                 Add Sale
             </Button>
         </ScrollView>
