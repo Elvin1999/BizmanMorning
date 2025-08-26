@@ -10,6 +10,7 @@ export default function ClientSalesChart({ clientId }: any) {
     useEffect(() => {
         const fetch = async () => {
             await getClientSales(clientId, (sales) => {
+                console.log("SALES",sales);
                 const data = sales.map((s, index) => ({
                     x: s.date.slice(5),// only MM-DD
                     //x: (new Date(s.date)).getFullYear(),// only MM-DD

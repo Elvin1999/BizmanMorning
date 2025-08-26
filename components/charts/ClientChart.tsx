@@ -14,13 +14,13 @@ export default function ClientChart({ clients }: any) {
             await loadClients();
         })();
 
-    }, []);
+    }, [clients]);
 
     const loadClients = async () => {
         const data: any[] = [];
         for (let client of clients) {
             await getClientSales(client.id, (sales) => {
-                console.log("SALES", sales);
+                console.log("First Sales", sales);
                 const totalAmount = sales.reduce((sum, s) => sum + s.amount, 0);
                 if (totalAmount > 0) {
                     data.push({ x: client.name, y: totalAmount });

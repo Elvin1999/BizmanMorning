@@ -4,43 +4,31 @@ import * as SQLite from 'expo-sqlite';
 let db: SQLite.SQLiteDatabase | null = null;
 
 export const initDatabase = async () => {
-    db = await SQLite.openDatabaseAsync('bizman.db');
-
-    await db.execAsync(`
-            CREATE TABLE IF NOT EXISTS sales (
+    if (!db) {
+        db = await SQLite.openDatabaseAsync('bizman2.db');
+        await db.execAsync(`
+            CREATE TABLE IF NOT EXISTS clients (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
-                client_id INTEGER NOT NULL,
-                amount REAL NOT NULL,
-                date TEXT NOT NULL,
-                FOREIGN KEY (client_id) REFERENCES clients(id)
-            );
-            `);
+                name TEXT,
+                phone TEXT,
+                email TEXT
+                );
+                `);
+
+        await db.execAsync(`
+                    CREATE TABLE IF NOT EXISTS sales (
+                        id INTEGER PRIMARY KEY AUTOINCREMENT,
+                        client_id INTEGER NOT NULL,
+                        amount REAL NOT NULL,
+                        date TEXT NOT NULL,
+                        FOREIGN KEY (client_id) REFERENCES clients(id)
+                        );
+                        `);
+
+    }
 
 };
-// if (!db) {
-//     db = await SQLite.openDatabaseAsync('bizman.db');
 
-// await db.execAsync(`
-//     CREATE TABLE IF NOT EXISTS sales (
-//         id INTEGER PRIMARY KEY AUTOINCREMENT,
-//         client_id INTEGER NOT NULL,
-//         amount REAL NOT NULL,
-//         date TEXT NOT NULL,
-//         FOREIGN KEY (client_id) REFERENCES clients(id)
-//     );
-//     `);
-
-// await db.execAsync(`
-//     CREATE TABLE IF NOT EXISTS clients (
-//         id INTEGER PRIMARY KEY AUTOINCREMENT,
-//         name TEXT,
-//         phone TEXT,
-//         email TEXT
-//     );
-//     `);
-
-// }
-//};
 
 export const insertSale = async (clientId: number, amount: number, date: string) => {
     await db?.execAsync(`
